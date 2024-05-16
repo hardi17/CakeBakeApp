@@ -1,10 +1,14 @@
 package com.hardi.cakelist.di.module
 
+import android.content.Context
 import com.hardi.cakelist.data.api.NetworkService
 import com.hardi.cakelist.di.BaseUrl
+import com.hardi.cakelist.utils.internetcheck.InternetConnected
+import com.hardi.cakelist.utils.internetcheck.NetworkHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -35,6 +39,12 @@ class ApplicationModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(NetworkService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkHelper(@ApplicationContext context: Context): NetworkHelper {
+        return InternetConnected(context)
     }
 
 }

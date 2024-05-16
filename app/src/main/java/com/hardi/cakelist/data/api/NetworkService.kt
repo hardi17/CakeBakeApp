@@ -8,6 +8,6 @@ import javax.inject.Singleton
 interface NetworkService {
 
     @GET("waracle_cake-android-client")
-    suspend fun getCakeList(): Cake
+    suspend fun getCakeList(): List<Cake>
 
 }
