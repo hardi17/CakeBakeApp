@@ -15,7 +15,7 @@ class CakeListRepository @Inject constructor(private val networkService: Network
         return flow {
             emit(networkService.getCakeList())
         }.map {
-            it.sortedBy { item -> item.title }
+            it.distinctBy { cake -> cake.title }.sortedBy { cake -> cake.title }
         }
     }
 

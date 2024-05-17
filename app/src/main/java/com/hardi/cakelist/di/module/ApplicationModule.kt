@@ -3,6 +3,8 @@ package com.hardi.cakelist.di.module
 import android.content.Context
 import com.hardi.cakelist.data.api.NetworkService
 import com.hardi.cakelist.di.BaseUrl
+import com.hardi.cakelist.utils.DefaultDispatcherProvider
+import com.hardi.cakelist.utils.DispatcherProvider
 import com.hardi.cakelist.utils.internetcheck.InternetConnected
 import com.hardi.cakelist.utils.internetcheck.NetworkHelper
 import dagger.Module
@@ -46,5 +48,9 @@ class ApplicationModule {
     fun provideNetworkHelper(@ApplicationContext context: Context): NetworkHelper {
         return InternetConnected(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideDispatcher() : DispatcherProvider = DefaultDispatcherProvider()
 
 }

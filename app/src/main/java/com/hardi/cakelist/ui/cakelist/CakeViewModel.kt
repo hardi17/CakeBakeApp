@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hardi.cakelist.data.model.Cake
 import com.hardi.cakelist.data.repository.CakeListRepository
+import com.hardi.cakelist.utils.DispatcherProvider
 import com.hardi.cakelist.utils.UIState
 import com.hardi.cakelist.utils.internetcheck.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -18,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CakeViewModel @Inject constructor(
     private val cakeListRepository: CakeListRepository,
-    private val networkHelper: NetworkHelper
+    private val dispatcherProvider: DispatcherProvider,
+    networkHelper: NetworkHelper
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<List<Cake>>>(UIState.Loading)
@@ -26,26 +27,26 @@ class CakeViewModel @Inject constructor(
     val uiState: StateFlow<UIState<List<Cake>>> = _uiState
 
     init {
-        fetchCakeList()
+        if (networkHelper.isInternetConnected()) {
+            fetchCakeList()
+        } else {
+            _uiState.value = UIState.Error("No internet connection")
+        }
     }
 
     fun fetchCakeList() {
-        viewModelScope.launch {
-            try {
-                if (networkHelper.isInternetConnected()) {
-                    cakeListRepository.getCakeList()
-                        .flowOn(Dispatchers.IO)
-                        .catch { e ->
-                            _uiState.value = UIState.Error(e.toString())
-                        }.collect {
-                            _uiState.value = UIState.Success(it.distinct())
-                        }
-                } else {
-                    _uiState.value = UIState.Error("No internet connection")
+        viewModelScope.launch(dispatcherProvider.main) {
+            cakeListRepository.getCakeList()
+                .flowOn(dispatcherProvider.io)
+                .catch { e ->
+                    _uiState.value = UIState.Error(e.toString())
+                }.collect {
+                    if (it.isEmpty()) {
+                        _uiState.value = UIState.Error("No data available")
+                    } else {
+                        _uiState.value = UIState.Success(it)
+                    }
                 }
-            } catch (t: Throwable) {
-                _uiState.value = UIState.Error(t.message.toString())
-            }
         }
     }
 
