@@ -18,5 +18,8 @@
 - Android Architecture : MVVM
 - Dependency Injection : Hilt
 - Image loading : Glide
+- Coroutines and kotlin Flow api
 - Design and view : XML layout and Databinding
 - Testing :  Mockito, JUnit and Turbine
+- Swipe refresh layout for refresh data
+  
