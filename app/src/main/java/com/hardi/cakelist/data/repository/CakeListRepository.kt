@@ -1,6 +1,5 @@
 package com.hardi.cakelist.data.repository
 
-import android.util.Log
 import com.hardi.cakelist.data.api.NetworkService
 import com.hardi.cakelist.data.model.Cake
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +14,6 @@ class CakeListRepository @Inject constructor(private val networkService: Network
     fun getCakeList(): Flow<List<Cake>> {
         return flow {
             emit(networkService.getCakeList())
-            Log.d("before filter", "$networkService.getCakeList()")
         }.map {
             it.sortedBy { item -> item.title }
         }

@@ -33,6 +33,14 @@ class CakeListActivity : AppCompatActivity() {
         setUpViewModel()
         setUpUI()
         setupResponse()
+        setupRefreshData()
+    }
+
+    private fun setupRefreshData() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.fetchCakeList()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupResponse() {
@@ -70,6 +78,7 @@ class CakeListActivity : AppCompatActivity() {
 
     }
 
+    //update recyclerview
     private fun renderList(cakeItem: List<Cake>) {
         adapter.addData(cakeItem)
     }
