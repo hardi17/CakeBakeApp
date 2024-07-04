@@ -23,4 +23,18 @@
 - Testing :  Mockito, JUnit and Turbine
 - Swipe refresh layout for refresh data
 - Retrofit : Networking libraries
+
+## Contributing to create small app in kotlin
+
+Just make pull request. You are in!
+
+Thanks
+
+Hardi Rachh
+
+You can connect with me on:
+
+- LinkedIn : https://www.linkedin.com/in/hardi-r/
+- Medium : https://hardirachh.medium.com/
+
   
