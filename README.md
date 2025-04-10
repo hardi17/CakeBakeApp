@@ -1,4 +1,4 @@
-# Cake list app
+# Cake bake app
 - Cake list loaded and displayed when app started
     - Remove duplicate entries
     - Order entries by name
@@ -24,9 +24,7 @@
 - Swipe refresh layout for refresh data
 - Retrofit : Networking libraries
 
-## Contributing to create small app in kotlin
-
-Just make pull request. You are in!
+###
 
 Thanks
 
